@@ -1,0 +1,4 @@
+const C='ajo-v3',F=['index.html','login.html','register.html','join-team.html','forgot-password.html','css/style.css','js/app.js','js/pages.js','admin/dashboard.html','admin/contributions.html','admin/members.html','admin/transactions.html','admin/invite.html','admin/profile.html','member/dashboard.html','member/contributions.html','member/transactions.html','member/profile.html','manifest.json','assets/icons/ajo-mark.svg'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x))))));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(C).then(x=>x.put(e.request,c));return r}).catch(()=>caches.match(e.request)))});
